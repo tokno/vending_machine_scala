@@ -49,8 +49,9 @@ class VendingMachine {
       return
 
     val price = juiceStock.juicePrice
-    juiceStock.take()
     _salesVolume += price
+
+    juiceStock.take() // TODO ジュースはどこにいく？
   }
 
   def juiceCount = juiceStock.count

@@ -29,6 +29,6 @@ class JuiceStore {
 
     stock.put(_juice, count - 1)
 
-    _juice
+    _juice.copy()
   }
 }
