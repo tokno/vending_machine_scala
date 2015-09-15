@@ -26,6 +26,7 @@ class CoinMech {
     // TODO なるべく大きい硬貨で釣り銭を出す。
     change.monies ++= mutable.Buffer.fill(payment)(Yen._1)
 
+    payment = 0
     out.merge(change)
   }
 

@@ -95,7 +95,7 @@ class VendingMachineSpec extends Specification {
 
       vendingMachine.buy()
 
-//      vendingMachine.amount must_== 0
+      vendingMachine.amount must_== 0
       vendingMachine.salesVolume must_== 120
     }
   }

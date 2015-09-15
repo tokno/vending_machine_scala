@@ -9,12 +9,11 @@ object VendingMachine {
 
 // 自販機
 class VendingMachine {
-  /** 入金箱 */
-  private val paymentBox = new CashBox
+  /** コインメック */
+  private val coinMech = new CoinMech
 
   /** 売り上げ金額 */
-  private var _salesVolume = 0
-  def salesVolume = _salesVolume
+  def salesVolume = coinMech.salesVolume
 
   /** 釣り銭箱 */
   val changeBox = new CashBox
@@ -22,7 +21,7 @@ class VendingMachine {
   private val juiceStock = new JuiceStore
 
   /** 投入金額の合計 */
-  def amount = paymentBox.amount
+  def amount = coinMech.paymentVolume
 
   /** 硬貨を入れる */
   def insertCoin(money: Yen): Unit = insert(money, CashValidator.CoinVali)
@@ -32,24 +31,21 @@ class VendingMachine {
 
   /** 有効貨幣なら総額に加算。そうでなければ釣り銭箱へ。 */
   private def insert(money: Yen, vali: CashValidator): Unit = {
-    val dist = if (vali.validate(money))
-      paymentBox.monies
+    if (vali.validate(money))
+      coinMech.insert(money) // FIXME 紙幣がコインメックに入ってる
     else
-      changeBox.monies
-
-    dist += money
+      changeBox.monies += money
   }
 
   /** 払い戻し */
-  def refund(): Unit = changeBox.merge(paymentBox)
+  def refund(): Unit = coinMech.dumpTo(changeBox)
 
   /** 購入 */
   def buy(): Unit = {
     if (!purchaseLampLighted)
       return
 
-    val price = juiceStock.juicePrice
-    _salesVolume += price
+    coinMech.purchase(juiceStock.juicePrice)
 
     juiceStock.take() // TODO ジュースはどこにいく？
   }
