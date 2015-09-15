@@ -99,4 +99,62 @@ class VendingMachineSpec extends Specification {
       vendingMachine.salesVolume must_== 120
     }
   }
+
+  "在庫がなくなると購入可能金額でもランプがつかない" in new vendingMachineTestingScope {
+    vendingMachine.insertBill(Yen._1000)
+
+    vendingMachine.buy()
+    vendingMachine.buy()
+    vendingMachine.buy()
+    vendingMachine.buy()
+
+    vendingMachine.purchaseLampLighted must_== true
+    vendingMachine.buy()
+
+    vendingMachine.amount must_== 400
+    vendingMachine.purchaseLampLighted must_== false
+  }
+
+  "入金がジュースの価格より少ない場合、購入操作を行ってもなにも起きない" in new vendingMachineTestingScope {
+    vendingMachine.insertCoin(Yen._50)
+
+    vendingMachine.buy()
+
+    vendingMachine.amount must_== 50
+    vendingMachine.salesVolume must_== 0
+    vendingMachine.juiceCount must_== 5
+    vendingMachine.changeBox.amount must_== 0
+  }
+
+  "在庫がない状態で購入処理を行ってもなにも起きない" in new vendingMachineTestingScope {
+    vendingMachine.insertBill(Yen._1000)
+
+    vendingMachine.buy()
+    vendingMachine.buy()
+    vendingMachine.buy()
+    vendingMachine.buy()
+    vendingMachine.buy()
+
+    vendingMachine.purchaseLampLighted must_== false
+    vendingMachine.salesVolume must_== 600
+    vendingMachine.amount must_== 400
+    vendingMachine.juiceCount must_== 0
+
+    vendingMachine.buy()
+
+    vendingMachine.purchaseLampLighted must_== false
+    vendingMachine.salesVolume must_== 600
+    vendingMachine.amount must_== 400
+    vendingMachine.juiceCount must_== 0
+  }
+
+  "ジュースを3本購入した後の売り上げは360円" in new vendingMachineTestingScope {
+    vendingMachine.insertBill(Yen._1000)
+
+    vendingMachine.buy()
+    vendingMachine.buy()
+    vendingMachine.buy()
+
+    vendingMachine.salesVolume must_== 360
+  }
 }
