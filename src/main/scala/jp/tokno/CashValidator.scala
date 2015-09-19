@@ -1,3 +1,5 @@
+package jp.tokno
+
 // 貨幣識別ユニット。
 // https://www.octy.co.jp/about/cm_bv.html
 object CashValidator {

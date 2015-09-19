@@ -1,3 +1,6 @@
+package jp.tokno
+
+import jp.tokno.{Yen, CoinMech, CashBox}
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 

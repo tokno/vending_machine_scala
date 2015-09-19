@@ -1,3 +1,5 @@
+package jp.tokno
+
 object VendingMachine {
   def apply(): VendingMachine = {
     val vendingMachine = new VendingMachine

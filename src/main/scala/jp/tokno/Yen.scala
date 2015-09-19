@@ -1,3 +1,5 @@
+package jp.tokno
+
 // 日本円
 object Yen {
   def _1 = Yen(1)

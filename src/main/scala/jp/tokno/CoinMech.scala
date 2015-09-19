@@ -1,3 +1,5 @@
+package jp.tokno
+
 import scala.collection.mutable
 
 /**
